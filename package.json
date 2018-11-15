@@ -41,8 +41,10 @@
     "cors": "^2.8.4",
     "feathers-sequelize": "^3.1.2",
     "helmet": "^3.13.0",
+    "node-telegram-bot-api": "^0.30.0",
     "nodemailer": "^4.6.8",
     "pg": "^7.4.3",
+    "promise-redis": "0.0.5",
     "sequelize": "^4.39.0",
     "serve-favicon": "^2.5.0",
     "winston": "^3.1.0"

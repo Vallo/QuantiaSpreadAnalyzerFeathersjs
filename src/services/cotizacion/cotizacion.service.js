@@ -1,7 +1,7 @@
-// Initializes the `spread` service on path `/spread`
+// Initializes the `cotizacion` service on path `/cotizacion`
 const createService = require('feathers-sequelize');
-const createModel = require('../../models/spread.model');
-const hooks = require('./spread.hooks');
+const createModel = require('../../models/cotizacion.model');
+const hooks = require('./cotizacion.hooks');
 
 module.exports = function (app) {
   const Model = createModel(app);
@@ -13,10 +13,10 @@ module.exports = function (app) {
   };
 
   // Initialize our service with any options it requires
-  app.use('/spread', createService(options));
+  app.use('/cotizacion', createService(options));
 
   // Get our initialized service so that we can register hooks
-  const service = app.service('spread');
+  const service = app.service('cotizacion');
 
   service.hooks(hooks);
 };

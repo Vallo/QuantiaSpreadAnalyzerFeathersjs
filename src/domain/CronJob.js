@@ -31,14 +31,14 @@ async function Job(moneda, condicion) {
 
 exports.Start = function () {
   //BTC LTC ETH ETC EOS XRP BCH BTG
-  let condicionBTC = new condicionState('btc');
+  let condicionBTC = new condicionState('btc');/*
   let condicionETH = new condicionState('eth');
   let condicionLTC = new condicionState('ltc');
   let condicionETC = new condicionState('etc');
   let condicionEOS = new condicionState('eos');
   let condicionXRP = new condicionState('xrp');
   let condicionBCH = new condicionState('bch');
-  let condicionBTG = new condicionState('btg');
+  let condicionBTG = new condicionState('btg');*/
   const intervalo = 10000;
   setInterval(function () {
     Job('btc', condicionBTC);

@@ -1,7 +1,7 @@
 let express = require('express');
 let router = express.Router();
-let config = require('../config.js');
-const TOKEN = config.token;
+const app = require('../app');
+const TOKEN = app.get('token');
 const TelegramBot = require('node-telegram-bot-api');
 const bot = new TelegramBot(TOKEN);
 const Analyzer = require('../domain/Analyzer.js');

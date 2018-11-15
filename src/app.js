@@ -23,7 +23,6 @@ const authentication = require('./authentication');
 const app = express(feathers());
 
 
-const botRoute = require('./routes/bot');
 
 // Load app configuration
 app.configure(configuration());
@@ -37,7 +36,7 @@ app.use(favicon(path.join(app.get('public'), 'favicon.ico')));
 // Host the public folder
 app.use('/', express.static(app.get('public')));
 // Host custom routes
-app.use('/bot', botRoute); //todo agregar rutas para gestionar el bot desde la web
+
 
 // Set up Plugins and providers
 app.configure(express.rest());
@@ -59,7 +58,12 @@ app.use(express.errorHandler({logger}));
 
 app.hooks(appHooks);
 
+
+module.exports = app;
+
+
 const cronJob = require('./domain/CronJob.js');
 cronJob.Start();
 
-module.exports = app;
+const botRoute = require('./routes/bot');
+app.use('/bot', botRoute); //todo agregar rutas para gestionar el bot desde la web

@@ -5,11 +5,23 @@ const DataTypes = Sequelize.DataTypes;
 
 module.exports = function (app) {
   const sequelizeClient = app.get('sequelizeClient');
-  const spread = sequelizeClient.define('spread', {
-    text: {
-      type: DataTypes.STRING,
+  const cotizacion = sequelizeClient.define('cotizacion', {
+    bidAvg: {
+      type: DataTypes.DECIMAL,
       allowNull: false
-    }
+    },
+    askAvg: {
+      type: DataTypes.DECIMAL,
+      allowNull: false
+    },
+    last: {
+      type: DataTypes.DECIMAL,
+      allowNull: false
+    },
+    crypto: {
+      type: DataTypes.DECIMAL,
+      allowNull: false
+    },
   }, {
     hooks: {
       beforeCount(options) {
@@ -19,10 +31,10 @@ module.exports = function (app) {
   });
 
   // eslint-disable-next-line no-unused-vars
-  spread.associate = function (models) {
+  cotizacion.associate = function (models) {
     // Define associations here
     // See http://docs.sequelizejs.com/en/latest/docs/associations/
   };
 
-  return spread;
+  return cotizacion;
 };
