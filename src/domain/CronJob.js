@@ -6,6 +6,9 @@ const condicionState = require('./CondicionState.js');
 const mailSender = require('./Helpers/mailSender.js');
 async function Job(moneda, condicion) {
   let res = await Analyzer.GetSpread(moneda);
+  console.log('+++++++++');
+  console.log(res);
+  console.log('+++++++++');
   let spread = res.MaxExchange.Bid / res.MinExchange.Ask;
   console.log('Spread: ' + spread + 'Moneda: ' + moneda);
   if (await condicion.CumpleCondicion(spread)) {
@@ -15,8 +18,10 @@ async function Job(moneda, condicion) {
       bot.SendAlert(ids[i].id, mensaje);
     }
     mailService.find().then(mails => {
-      let mailOptions = mailSender.mailOptions(moneda, mensaje, mails);
-      mailSender.sendMail(mailOptions);
+      if(mails.data[0]) {
+        let mailOptions = mailSender.mailOptions(moneda, mensaje, mails.data);
+        mailSender.sendMail(mailOptions);
+      }
     });
   }
 }
@@ -27,7 +32,7 @@ async function Job(moneda, condicion) {
     Huobi:          BTC LTC ETH ETC EOS XRP BCH
     Okex Spot:      BTC LTC ETH ETC EOS XRP BCH BTG
     Okex futuros:   BTC LTC ETH ETC EOS XRP BCH BTG
- */
+*/
 
 exports.Start = function () {
   //BTC LTC ETH ETC EOS XRP BCH BTG
@@ -42,7 +47,7 @@ exports.Start = function () {
   const intervalo = 10000;
   setInterval(function () {
     Job('btc', condicionBTC);
-  }, intervalo);
+  }, intervalo);/*
   setInterval(function () {
     Job('eth', condicionETH);
   }, intervalo);
@@ -63,6 +68,6 @@ exports.Start = function () {
   }, intervalo);
   setInterval(function () {
     Job('btg', condicionBTG);
-  }, intervalo);
+  }, intervalo);*/
 
 };

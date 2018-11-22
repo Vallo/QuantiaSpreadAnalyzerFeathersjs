@@ -65,5 +65,8 @@ module.exports = app;
 const cronJob = require('./domain/CronJob.js');
 cronJob.Start();
 
+process.on('unhandledRejection', up => { throw up });
+
+
 const botRoute = require('./routes/bot');
 app.use('/bot', botRoute); //todo agregar rutas para gestionar el bot desde la web

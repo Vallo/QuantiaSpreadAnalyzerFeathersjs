@@ -20,7 +20,7 @@ module.exports = {
     return await new Promise((resolve, reject) => {
       request('https://www.bitmex.com/api/v1/orderBook/L2?symbol=' + monedaBitMEX.bitmex.toUpperCase() + 'USD&depth=20', {json: true}, async (err, res, body) => {
         if (err) {
-          return console.log(err);
+          resolve({Ask: 99999, Bid: 0, Exchange: 'BitMEX'});
         }
         let promedio = new PromedioPonderado();
         for (let i = 0, len = body.length; i < len; i++) {

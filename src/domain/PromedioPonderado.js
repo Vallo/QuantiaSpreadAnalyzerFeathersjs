@@ -21,13 +21,14 @@ class PromedioPonderado {
     let average = 0;
     let weight = await redis.GetWeight(moneda);
     while (totalAmount < weight) {
-      console.log('Bid: ' + this._bid[i].Amount + '->' + this._bid[i].Price + ' = ' + totalAmount);
-      totalAmount = totalAmount + this._bid[i].Amount; //undefined si no llego al totalAmount con el order book que recibí
-      average = average + (this._bid[i].Price * this._bid[i].Amount);
-      i++;
+      if(this._bid[i]) {
+        totalAmount = totalAmount + this._bid[i].Amount; //undefined si no llego al totalAmount con el order book que recibí
+        average = average + (this._bid[i].Price * this._bid[i].Amount);
+        i++;
+      }
+      else break;
     }
-    average = average / (totalAmount);
-    //console.log("Precio promedio para comprar " + weight + " BTC: " + average);
+    average = average / totalAmount;
     return average.toFixed(2);
   }
 
@@ -38,13 +39,14 @@ class PromedioPonderado {
     let average = 0;
     let weight = await redis.GetWeight(moneda);
     while (totalAmount < weight) {
-      console.log('Ask: ' + this._ask[i].Amount + '->' + this._ask[i].Price + ' = ' + totalAmount);
-      totalAmount = totalAmount + this._ask[i].Amount;
-      average = average + (this._ask[i].Price * this._ask[i].Amount);
-      i++;
+      if(this._ask[i]) {
+        totalAmount = totalAmount + this._ask[i].Amount;
+        average = average + (this._ask[i].Price * this._ask[i].Amount);
+        i++;
+      }
+      else break;
     }
-    average = average / (totalAmount);
-    //console.log("Precio promedio para vender 10 BTC: " + average);
+    average = average / totalAmount;
     return average.toFixed(2);
   }
 }

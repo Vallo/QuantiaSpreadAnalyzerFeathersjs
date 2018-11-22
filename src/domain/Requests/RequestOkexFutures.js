@@ -5,12 +5,21 @@ module.exports = {
   async GetPrices(moneda, contract) {
     return await new Promise((resolve, reject) => {
       request('https://www.okex.com/api/v1/future_depth.do?symbol=' + moneda.toLowerCase() + '_usd&contract_type=' + contract + '&size=40', {json: true}, async (err, res, body) => {
+        if(err) {
+          console.log(err);
+          resolve({Ask: 99999, Bid: 0, Exchange: 'Okex Futures'});
+        }
         let contractSize = 10;
         if (moneda.toLowerCase() === 'btc') contractSize = 100;
         if (err) {
           reject(err);
         }
         let promedio = new PromedioPonderado();
+        if(!body) {
+          console.log('NO BODY?');
+          return resolve({Ask: 99999, Bid: 0, Exchange: 'Okex Futures'});
+        }
+        console.log(body);
         let bids = body.bids;
         for (let i = 0, len = bids.length; i < len; i++) {
           let row = bids[i];

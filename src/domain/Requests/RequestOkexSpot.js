@@ -6,7 +6,7 @@ module.exports = {
     return await new Promise((resolve, reject) => {
       request('https://www.okex.com/api/v1/depth.do?symbol=' + moneda.toLowerCase() + '_usdt', {json: true}, async (err, res, body) => {
         if (err) {
-          reject(err);
+          resolve({Ask: 99999, Bid: 0, Exchange: 'Okex Spot'});
         }
         let promedio = new PromedioPonderado();
         let bids = body.bids;

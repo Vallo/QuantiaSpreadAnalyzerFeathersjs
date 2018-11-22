@@ -5,17 +5,20 @@ const BitFinexSpot = require('./Requests/RequestBitfinex.js');
 
 
 module.exports = {
-  async Spread(moneda) {
+  async GetSpread(moneda) {
     let prices = [];
     return await new Promise((resolve, reject) => {
       getAllPrices(moneda).then(function (result) {
+        console.log(result);
         prices.push(result);
         prices = prices[0];
         let minAsk = Math.min(...prices.map(d => d.Ask));
         let maxBid = Math.max(...prices.map(d => d.Bid));
-        let minExchange = prices.find(x => x.Ask === minAsk);
-        let maxExchange = prices.find(x => x.Bid === maxBid);
-        /*console.log('\nMenor Ask: ' + minExchange.Exchange + '--> ' + minExchange.Ask);
+        console.log(minAsk);
+        console.log(maxBid);
+        let minExchange = prices.find(x => x.Ask == minAsk);
+        let maxExchange = prices.find(x => x.Bid == maxBid);/*
+        console.log('\nMenor Ask: ' + minExchange.Exchange + '--> ' + minExchange.Ask);
         console.log('Mayor Bid: ' + maxExchange.Exchange + '--> ' + maxExchange.Bid);
         console.log('Spread: ' + maxExchange.Bid/minExchange.Ask)*/
         resolve({MinExchange: minExchange, MaxExchange: maxExchange, Moneda: moneda});
