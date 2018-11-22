@@ -1,13 +1,11 @@
-const request = require('request-promise');
+const axios = require('axios');
 const PromedioPonderado = require('../PromedioPonderado.js');
 
 module.exports = {
   async GetPrices(moneda) {
     return await new Promise((resolve, reject) => {
-      request('https://www.okex.com/api/v1/depth.do?symbol=' + moneda.toLowerCase() + '_usdt', {json: true}, async (err, res, body) => {
-        if (err) {
-          resolve({Ask: 99999, Bid: 0, Exchange: 'Okex Spot'});
-        }
+      axios.get('https://www.okex.com/api/v1/depth.do?symbol=' + moneda.toLowerCase() + '_usdt').then(res => {
+        let body = res.data;
         let promedio = new PromedioPonderado();
         let bids = body.bids;
         for (let i = 0, len = bids.length; i < len; i++) {
@@ -23,10 +21,12 @@ module.exports = {
         }
 
         let promises = [];
-        promises.push(promedio.askAverage(moneda), await promedio.bidAverage(moneda));
+        promises.push(promedio.askAverage(moneda), promedio.bidAverage(moneda));
         Promise.all(promises).then(res => {
           resolve({Ask: res[0], Bid: res[1], Exchange: 'Okex Spot'});
         });
+      }).catch(() => {
+        resolve({Ask: 99999, Bid: 0, Exchange: 'Okex Spot'});
       });
     });
   }

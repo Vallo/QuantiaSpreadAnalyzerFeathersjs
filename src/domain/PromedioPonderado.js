@@ -29,7 +29,7 @@ class PromedioPonderado {
       else break;
     }
     average = average / totalAmount;
-    return average.toFixed(2);
+    return average.toFixed(5);
   }
 
   async askAverage(moneda) {
@@ -47,7 +47,7 @@ class PromedioPonderado {
       else break;
     }
     average = average / totalAmount;
-    return average.toFixed(2);
+    return average.toFixed(5);
   }
 }
 

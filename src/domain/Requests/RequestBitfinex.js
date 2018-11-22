@@ -1,13 +1,11 @@
-const request = require('request');
+const axios = require('axios');
 const PromedioPonderado = require('../PromedioPonderado.js');
 
 module.exports = {
   async GetPrices(moneda) {
     return await new Promise((resolve) => {
-      request('https://api.bitfinex.com/v2/book/t' + moneda.toUpperCase() + 'USD/P0', {json: true}, async (err, res, body) => {
-        if (err) {
-          return console.log(err);
-        }
+      axios.get('https://api.bitfinex.com/v2/book/t' + moneda.toUpperCase() + 'USD/P0').then(res => {
+        let body = res.data;
         let promedio = new PromedioPonderado();
         for (let i = 0, len = body.length; i < len; i++) {
           let row = body[i];
@@ -21,10 +19,12 @@ module.exports = {
           }
         }
         let promises = [];
-        promises.push(promedio.askAverage(moneda), await promedio.bidAverage(moneda));
+        promises.push(promedio.askAverage(moneda), promedio.bidAverage(moneda));
         Promise.all(promises).then(res => {
           resolve({Ask: res[0], Bid: res[1], Exchange: 'Finex'});
         });
+      }).catch(() => {
+        resolve({Ask: 99999, Bid: 0, Exchange: 'Finex'});
       });
     });
   }

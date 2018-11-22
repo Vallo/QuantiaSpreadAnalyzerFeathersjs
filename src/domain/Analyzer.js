@@ -14,8 +14,6 @@ module.exports = {
         prices = prices[0];
         let minAsk = Math.min(...prices.map(d => d.Ask));
         let maxBid = Math.max(...prices.map(d => d.Bid));
-        console.log(minAsk);
-        console.log(maxBid);
         let minExchange = prices.find(x => x.Ask == minAsk);
         let maxExchange = prices.find(x => x.Bid == maxBid);/*
         console.log('\nMenor Ask: ' + minExchange.Exchange + '--> ' + minExchange.Ask);

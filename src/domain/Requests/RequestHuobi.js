@@ -1,4 +1,4 @@
-const request = require('request');
+const axios = require('axios');
 const PromedioPonderado = require('../PromedioPonderado.js');
 
 module.exports = {
@@ -7,10 +7,8 @@ module.exports = {
       return {Ask: 99999, Bid: 0, Exchange: 'Houbi'};
     }
     return await new Promise((resolve, reject) => {
-      request('https://api.huobi.pro/market/depth?symbol=' + moneda.toLowerCase() + 'usdt&type=step0', {json: true}, async (err, res, body) => {
-        if (err) {
-          return console.log(err);
-        }
+      axios.get('https://api.huobi.pro/market/depth?symbol=' + moneda.toLowerCase() + 'usdt&type=step0').then(res => {
+        let body = res.data;
         let promedio = new PromedioPonderado();
         let bids = body.tick.bids;
         for (let i = 0, len = bids.length; i < len; i++) {
@@ -25,10 +23,12 @@ module.exports = {
           promedio.ask(ask);
         }
         let promises = [];
-        promises.push(promedio.askAverage(moneda), await promedio.bidAverage(moneda));
+        promises.push(promedio.askAverage(moneda), promedio.bidAverage(moneda));
         Promise.all(promises).then(res => {
-          resolve({Ask: res[0], Bid: res[1], Exchange: 'huboi'});
+          resolve({Ask: res[0], Bid: res[1], Exchange: 'Huobi'});
         });
+      }).catch(() => {
+        resolve({Ask: 99999, Bid: 0, Exchange: 'Huobi'});
       });
     });
   }

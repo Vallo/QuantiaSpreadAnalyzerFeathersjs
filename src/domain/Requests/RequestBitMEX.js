@@ -1,5 +1,5 @@
 'use strict';
-const request = require('request');
+const axios = require('axios');
 const PromedioPonderado = require('../PromedioPonderado.js');
 
 
@@ -18,10 +18,8 @@ module.exports = {
     let monedaBitMEX = pareja.find(x => x.moneda === moneda);
     if (!monedaBitMEX) return {Ask: 99999, Bid: 0, Exchange: 'BitMEX'};
     return await new Promise((resolve, reject) => {
-      request('https://www.bitmex.com/api/v1/orderBook/L2?symbol=' + monedaBitMEX.bitmex.toUpperCase() + 'USD&depth=20', {json: true}, async (err, res, body) => {
-        if (err) {
-          resolve({Ask: 99999, Bid: 0, Exchange: 'BitMEX'});
-        }
+      axios.get('https://www.bitmex.com/api/v1/orderBook/L2?symbol=' + monedaBitMEX.bitmex.toUpperCase() + 'USD&depth=20').then(res => {
+        let body = res.data;
         let promedio = new PromedioPonderado();
         for (let i = 0, len = body.length; i < len; i++) {
           let row = body[i];
@@ -35,11 +33,12 @@ module.exports = {
           }
         }
         let promises = [];
-        promises.push(promedio.askAverage(moneda), await promedio.bidAverage(moneda));
+        promises.push(promedio.askAverage(moneda), promedio.bidAverage(moneda));
         Promise.all(promises).then(res => {
           resolve({Ask: res[0], Bid: res[1], Exchange: 'BitMEX'});
         });
-
+      }).catch(() => {
+        resolve({Ask: 99999, Bid: 0, Exchange: 'BitMEX'});
       });
     });
   }

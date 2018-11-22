@@ -10,8 +10,7 @@ class CondicionState {
     let estado = this.state; //guardo el estado actual
     this.state = await this.state(spread, this.moneda);//llamo a CumpleCondicion de estado actual
     let nuevoEstado = this.state;
-    console.log(this.moneda);
-    feathers.service('estado').update(this.moneda, {spread, alertState:nuevoEstado.name}).catch(err => console.log(err));
+    //todo feathers.service('estado').update(this.moneda, {spread, alertState:nuevoEstado.name}).catch(err => console.log(err));
     if (estado !== this.state) {
       console.log('cumple condicion ' + spread);
       return true;
