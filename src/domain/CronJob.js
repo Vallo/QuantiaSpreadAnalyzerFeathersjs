@@ -6,11 +6,8 @@ const condicionState = require('./CondicionState.js');
 const mailSender = require('./Helpers/mailSender.js');
 async function Job(moneda, condicion) {
   let res = await Analyzer.GetSpread(moneda);
-  console.log('+++++++++');
-  console.log(res);
-  console.log('+++++++++');
   let spread = res.MaxExchange.Bid / res.MinExchange.Ask;
-  console.log('Spread: ' + spread + 'Moneda: ' + moneda);
+  console.log('Spread: ' + spread + ' Moneda: ' + moneda);
   if (await condicion.CumpleCondicion(spread)) {
     let ids = await db.GetSuscripciones();
     let mensaje = 'Moneda: ' + moneda + '\nSpread: ' + spread.toFixed(5) + '\nMenor Ask: ' + res.MinExchange.Exchange + '--> ' + res.MinExchange.Ask + '\nMayor Bid: ' + res.MaxExchange.Exchange + '--> ' + res.MaxExchange.Bid;
@@ -44,10 +41,10 @@ exports.Start = function () {
   let condicionXRP = new condicionState('xrp');
   let condicionBCH = new condicionState('bch');
   let condicionBTG = new condicionState('btg');
-  const intervalo = 10000;/*
+  const intervalo = 10000;
   setInterval(function () {
     Job('btc', condicionBTC);
-  }, intervalo);
+  }, intervalo);/*
   setInterval(function () {
     Job('eth', condicionETH);
   }, intervalo);
@@ -65,8 +62,8 @@ exports.Start = function () {
   }, intervalo);
   setInterval(function () {
     Job('btg', condicionBTG);
-  }, intervalo);*/
+  }, intervalo);
   setInterval(function () {
     Job('xrp', condicionXRP);
-  }, intervalo);
+  }, intervalo);*/
 };

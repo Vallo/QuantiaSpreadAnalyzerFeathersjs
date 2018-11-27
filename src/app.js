@@ -61,6 +61,16 @@ app.hooks(appHooks);
 
 module.exports = app;
 
+const initDb = require('./InitDb');
+initDb.Init('btc');
+initDb.Init('eth');
+initDb.Init('ltc');
+initDb.Init('etc');
+initDb.Init('eos');
+initDb.Init('bch');
+initDb.Init('btg');
+initDb.Init('xrp');
+
 
 const cronJob = require('./domain/CronJob.js');
 cronJob.Start();
