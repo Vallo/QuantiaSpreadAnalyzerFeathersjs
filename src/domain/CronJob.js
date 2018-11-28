@@ -41,10 +41,10 @@ exports.Start = function () {
   let condicionXRP = new condicionState('xrp');
   let condicionBCH = new condicionState('bch');
   let condicionBTG = new condicionState('btg');
-  const intervalo = 10000;
+  const intervalo = 10000;/*
   setInterval(function () {
     Job('btc', condicionBTC);
-  }, intervalo);/*
+  }, intervalo);
   setInterval(function () {
     Job('eth', condicionETH);
   }, intervalo);
@@ -56,10 +56,10 @@ exports.Start = function () {
   }, intervalo);
   setInterval(function () {
     Job('eos', condicionEOS);
-  }, intervalo);
+  }, intervalo);/**/
   setInterval(function () {
     Job('bch', condicionBCH);
-  }, intervalo);
+  }, intervalo);/*
   setInterval(function () {
     Job('btg', condicionBTG);
   }, intervalo);

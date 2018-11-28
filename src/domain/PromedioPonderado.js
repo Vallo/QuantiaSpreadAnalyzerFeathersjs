@@ -1,4 +1,4 @@
-const redis = require('./Helpers/redis.js');
+const estadoService = require('./../app').service('estado');
 
 class PromedioPonderado {
   constructor() {
@@ -19,9 +19,11 @@ class PromedioPonderado {
     let totalAmount = 0;
     let i = 0;
     let average = 0;
-    let weight = await redis.GetWeight(moneda);
+    let weight = await estadoService.get(moneda).then(res => {
+      return res.weight;
+    });
     while (totalAmount < weight) {
-      if(this._bid[i]) {
+      if (this._bid[i]) {
         totalAmount = totalAmount + this._bid[i].Amount; //undefined si no llego al totalAmount con el order book que recibí
         average = average + (this._bid[i].Price * this._bid[i].Amount);
         i++;
@@ -37,9 +39,11 @@ class PromedioPonderado {
     let totalAmount = 0;
     let i = 0;
     let average = 0;
-    let weight = await redis.GetWeight(moneda);
+    let weight = await estadoService.get(moneda).then(res => {
+      return res.weight;
+    });
     while (totalAmount < weight) {
-      if(this._ask[i]) {
+      if (this._ask[i]) {
         totalAmount = totalAmount + this._ask[i].Amount;
         average = average + (this._ask[i].Price * this._ask[i].Amount);
         i++;

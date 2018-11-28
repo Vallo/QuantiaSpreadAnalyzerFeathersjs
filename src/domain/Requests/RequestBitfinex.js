@@ -3,6 +3,7 @@ const PromedioPonderado = require('../PromedioPonderado.js');
 
 module.exports = {
   async GetPrices(moneda) {
+
     return await new Promise((resolve) => {
       axios.get('https://api.bitfinex.com/v2/book/t' + moneda.toUpperCase() + 'USD/P0').then(res => {
         let body = res.data;
