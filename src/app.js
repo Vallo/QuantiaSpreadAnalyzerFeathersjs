@@ -23,7 +23,6 @@ const authentication = require('./authentication');
 const app = express(feathers());
 
 
-
 // Load app configuration
 app.configure(configuration());
 // Enable security, CORS, compression, favicon and body parsing
@@ -61,21 +60,23 @@ app.hooks(appHooks);
 
 module.exports = app;
 
-const initDb = require('./InitDb');
-initDb.Init('btc');
-initDb.Init('eth');
-initDb.Init('ltc');
-initDb.Init('etc');
-initDb.Init('eos');
-initDb.Init('bch');
-initDb.Init('btg');
-initDb.Init('xrp');
+setTimeout(function () {
+  const initDb = require('./InitDb');
+  initDb.Init('btc');
+  initDb.Init('eth');
+  initDb.Init('ltc');
+  initDb.Init('etc');
+  initDb.Init('eos');
+  initDb.Init('bch');
+  initDb.Init('btg');
+  initDb.Init('xrp');
+
+  const cronJob = require('./domain/CronJob.js');
+  cronJob.Start();
+}, 5000);
 
 
-const cronJob = require('./domain/CronJob.js');
-cronJob.Start();
-
-process.on('unhandledRejection', up => { throw up });
+//process.on('unhandledRejection', up => { throw up });
 
 
 const botRoute = require('./routes/bot');

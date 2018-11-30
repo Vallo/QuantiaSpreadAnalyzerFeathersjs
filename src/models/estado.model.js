@@ -26,22 +26,22 @@ module.exports = function (app) {
       default: 10,
       allowNull: false
     },
-    Alert1:{
+    alert1:{
       type: DataTypes.DECIMAL,
       default: 0,
       allowNull: false
     },
-    Alert2:{
+    alert2:{
       type: DataTypes.DECIMAL,
       default: 0,
       allowNull: false
     },
-    Alert3:{
+    alert3:{
       type: DataTypes.DECIMAL,
       default: 0,
       allowNull: false
     },
-    Alert4:{
+    alert4:{
       type: DataTypes.DECIMAL,
       default: 0,
       allowNull: false

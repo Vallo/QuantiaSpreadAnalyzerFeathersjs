@@ -11,10 +11,10 @@ module.exports = {
           spread: 0,
           alertState: 'Inicial',
           weight: 10,
-          Alert1: 1,
-          Alert2: 1.01,
-          Alert3: 1.02,
-          Alert4: 1.03
+          alert1: 1,
+          alert2: 1.01,
+          alert3: 1.02,
+          alert4: 1.03
         });
       }
     });
