@@ -40,6 +40,7 @@
     "axios": "^0.18.0",
     "compression": "^1.7.3",
     "cors": "^2.8.4",
+    "feathers-hooks-common": "^4.19.4",
     "feathers-sequelize": "^3.1.2",
     "helmet": "^3.13.0",
     "node-telegram-bot-api": "^0.30.0",
