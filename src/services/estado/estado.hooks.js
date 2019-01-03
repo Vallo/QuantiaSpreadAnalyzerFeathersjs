@@ -1,5 +1,6 @@
 const {authenticate} = require('@feathersjs/authentication').hooks;
 const {disallow, isNot, iff, isProvider} = require('feathers-hooks-common');
+
 function isAdmin() {
   context => {
     if (context)
@@ -19,8 +20,9 @@ module.exports = {
     create: [disallow('external')],
     update: [disallow('external')],
     patch: [
-      iff(isProvider('external') , disallow()), //&& isNot(isAdmin)
-      //iff(isNot(isProvider('server')), disallow())
+      iff(isProvider('external'),
+        iff(isNot(isAdmin), disallow())
+      )
     ],
     remove: [disallow()]
   },
