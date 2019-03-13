@@ -67,7 +67,7 @@ setTimeout(function () {
   initDb.Init('ltc');
   initDb.Init('etc');
   initDb.Init('eos');
-  initDb.Init('bch');
+  //initDb.Init('bch');
   initDb.Init('btg');
   initDb.Init('xrp');
 

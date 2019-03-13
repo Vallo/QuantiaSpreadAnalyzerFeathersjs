@@ -25,7 +25,7 @@ module.exports = {
           resolve({Ask: res[0], Bid: res[1], Exchange: 'Finex'});
         });
       }).catch(() => {
-        resolve({Ask: 99999, Bid: 0, Exchange: 'Finex'});
+        resolve({Ask: 99999, Bid: 0, Exchange: 'Bitfinex'});
       });
     });
   }

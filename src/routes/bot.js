@@ -6,7 +6,6 @@ const TelegramBot = require('node-telegram-bot-api');
 const bot = new TelegramBot(TOKEN);
 const Analyzer = require('../domain/Analyzer.js');
 const db = require('../domain/Helpers/db.js');
-const redis = require('../domain/Helpers/redis.js');
 
 router.post(`/${TOKEN}`, (req, res) => {
   bot.processUpdate(req.body);
