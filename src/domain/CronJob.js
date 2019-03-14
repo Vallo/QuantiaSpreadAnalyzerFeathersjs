@@ -33,18 +33,19 @@ async function Job(moneda, condicion) {
 
 exports.Start = function () {
   //BTC LTC ETH ETC EOS XRP BCH BTG
+  const intervalo = 10000;
   let condicionBTC = new condicionState('btc');
-  let condicionETH = new condicionState('eth');
+    setInterval(function () {
+        Job('btc', condicionBTC);
+    }, intervalo);
+  /*let condicionETH = new condicionState('eth');
   let condicionLTC = new condicionState('ltc');
   let condicionETC = new condicionState('etc');
   let condicionEOS = new condicionState('eos');
   let condicionXRP = new condicionState('xrp');
   let condicionBCH = new condicionState('bch');
-  let condicionBTG = new condicionState('btg');
-  const intervalo = 10000;
-  setInterval(function () {
-    Job('btc', condicionBTC);
-  }, intervalo);
+//  let condicionBTG = new condicionState('btg');
+
   setInterval(function () {
     Job('eth', condicionETH);
   }, intervalo);
@@ -59,11 +60,11 @@ exports.Start = function () {
   }, intervalo);/*
   setInterval(function () {
     Job('bch', condicionBCH);
-  }, intervalo);*/
+  }, intervalo);
   setInterval(function () {
     Job('btg', condicionBTG);
   }, intervalo);
   setInterval(function () {
     Job('xrp', condicionXRP);
-  }, intervalo);
+  }, intervalo);*/
 };

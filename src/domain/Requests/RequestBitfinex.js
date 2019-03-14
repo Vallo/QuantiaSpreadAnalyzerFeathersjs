@@ -5,7 +5,7 @@ module.exports = {
   async GetPrices(moneda) {
 
     return await new Promise((resolve) => {
-      axios.get('https://api.bitfinex.com/v2/book/t' + moneda.toUpperCase() + 'USD/P0').then(res => {
+      axios.get('https://api.bitfinex.com/v2/book/t' + moneda.toUpperCase() + 'USD/P1?len=100').then(res => {
         let body = res.data;
         let promedio = new PromedioPonderado();
         for (let i = 0, len = body.length; i < len; i++) {

@@ -9,7 +9,7 @@ module.exports = {
         let prices = [];
         return await new Promise((resolve, reject) => {
             getAllPrices(moneda).then(function (result) {
-                //console.log(result);
+                console.log(result);
                 prices.push(result);
                 prices = prices[0];
                 let minAsk = Math.min(...prices.map(d => d.Ask));
