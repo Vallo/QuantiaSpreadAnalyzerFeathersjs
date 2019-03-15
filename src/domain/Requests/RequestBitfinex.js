@@ -2,12 +2,11 @@ const axios = require('axios');
 const PromedioPonderado = require('../PromedioPonderado.js');
 
 module.exports = {
-  async GetPrices(moneda) {
-
+  async GetPrices(moneda, weight) {
     return await new Promise((resolve) => {
       axios.get('https://api.bitfinex.com/v2/book/t' + moneda.toUpperCase() + 'USD/P1?len=100').then(res => {
         let body = res.data;
-        let promedio = new PromedioPonderado();
+        let promedio = new PromedioPonderado(weight);
         for (let i = 0, len = body.length; i < len; i++) {
           let row = body[i];
           if (row[2] > 0) {

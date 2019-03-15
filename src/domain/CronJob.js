@@ -1,4 +1,4 @@
-const bot = require('./Helpers/bot.js');
+//const bot = require('./Helpers/bot.js'); TODO
 const Analyzer = require('./Analyzer.js');
 const db = require('./Helpers/db.js');
 const mailService = require('../app').service('mail');
@@ -12,7 +12,7 @@ async function Job(moneda, condicion) {
     let ids = await db.GetSuscripciones();
     let mensaje = 'Moneda: ' + moneda + '\nSpread: ' + spread.toFixed(5) + '\nMenor Ask: ' + res.MinExchange.Exchange + '--> ' + res.MinExchange.Ask + '\nMayor Bid: ' + res.MaxExchange.Exchange + '--> ' + res.MaxExchange.Bid;
     for (let i = 0, len = ids.length; i < len; i++) {
-      bot.SendAlert(ids[i].id, mensaje);
+      //bot.SendAlert(ids[i].id, mensaje);
     }
     mailService.find().then(mails => {
       if(mails.data[0]) {

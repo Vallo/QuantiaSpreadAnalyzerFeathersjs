@@ -2,13 +2,13 @@ const axios = require('axios');
 const PromedioPonderado = require('../PromedioPonderado.js');
 
 module.exports = {
-  async GetPrices(moneda, contract) {
+  async GetPrices(moneda, contract,weight) {
     return await new Promise((resolve, reject) => {
       axios.get('https://www.okex.com/api/v1/future_depth.do?symbol=' + moneda.toLowerCase() + '_usd&contract_type=' + contract + '&size=40').then(res => {
         let body = res.data;
         let contractSize = 10;
         if (moneda.toLowerCase() === 'btc') contractSize = 100;
-        let promedio = new PromedioPonderado();
+        let promedio = new PromedioPonderado(weight);
         if (!body) {
           console.log('NO BODY?');
           return {Ask: 99999, Bid: 0, Exchange: 'Okex Futures'};

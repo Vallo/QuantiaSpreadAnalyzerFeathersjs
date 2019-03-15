@@ -9,7 +9,7 @@ module.exports = {
         let prices = [];
         return await new Promise((resolve, reject) => {
             getAllPrices(moneda).then(function (result) {
-                console.log(result);
+                //console.log(result);
                 prices.push(result);
                 prices = prices[0];
                 let minAsk = Math.min(...prices.map(d => d.Ask));
@@ -24,7 +24,7 @@ module.exports = {
                     minAsk,
                     maxBid,
                     minExchange: minExchange.Exchange,
-                    maxExchange:maxExchange.Exchange
+                    maxExchange: maxExchange.Exchange
                 }).catch(err => console.log(err));
                 resolve({MinExchange: minExchange, MaxExchange: maxExchange, Moneda: moneda});
             });
@@ -40,12 +40,15 @@ module.exports = {
 };
 
 
-function getAllPrices(moneda) {
+async function getAllPrices(moneda) {
+    let weight = await estadoService.get(moneda).then(res => {
+        return res.weight;
+    });
     return Promise.all([
-        OkexSpot.GetPrices(moneda),
-        HuboiSpot.GetPrices(moneda),
-        BitFinexSpot.GetPrices(moneda),
-        OkexFutures.GetPrices(moneda, 'this_week'),
-        OkexFutures.GetPrices(moneda, 'next_week'),
-        OkexFutures.GetPrices(moneda, 'quarter')]);
+        OkexSpot.GetPrices(moneda,weight),
+        HuboiSpot.GetPrices(moneda,weight),
+        BitFinexSpot.GetPrices(moneda,weight),
+        OkexFutures.GetPrices(moneda, 'this_week',weight),
+        OkexFutures.GetPrices(moneda, 'next_week',weight),
+        OkexFutures.GetPrices(moneda, 'quarter',weight)]);
 }

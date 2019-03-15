@@ -51,6 +51,8 @@ app.configure(services);
 // Set up event channels (see channels.js)
 app.configure(channels);
 
+const botRoute = require('./routes/index');
+app.use('/promedio', botRoute); //todo agregar rutas para gestionar el bot desde la web
 // Configure a middleware for 404s and the error handler
 app.use(express.notFound());
 app.use(express.errorHandler({logger}));
@@ -58,7 +60,13 @@ app.use(express.errorHandler({logger}));
 app.hooks(appHooks);
 
 
+
+
 module.exports = app;
+
+//const botRoute = require('./routes/bot');
+
+//app.use('/bot', botRoute); //todo agregar rutas para gestionar el bot desde la web
 
 setTimeout(function () {
   const initDb = require('./InitDb');
@@ -78,6 +86,3 @@ setTimeout(function () {
 
 //process.on('unhandledRejection', up => { throw up });
 
-
-const botRoute = require('./routes/bot');
-app.use('/bot', botRoute); //todo agregar rutas para gestionar el bot desde la web
