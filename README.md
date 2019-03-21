@@ -35,7 +35,7 @@ Getting up and running is as easy as 1, 2, 3.
      "ssl":{
        "cert":"/path/to/pem",
        "key":"/path/to/key"
-    }
+     }
   }
   ```
    
