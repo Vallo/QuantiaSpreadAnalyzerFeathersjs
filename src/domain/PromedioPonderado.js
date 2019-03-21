@@ -43,7 +43,6 @@ class PromedioPonderado {
             }
             else break;
         }
-        console.log('TOTAL: ' + totalAmount)
         average = average / totalAmount;
         return average.toFixed(5);
     }
