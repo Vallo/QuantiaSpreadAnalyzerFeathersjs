@@ -4,7 +4,7 @@
 
 ## About
 
-This project compares the weighted average price of several exchanges for several crypto, and alerts via Telegram when the maximum spread goes beyond the configured value, allowing to set up to five different alert levels.  
+This project compares the weighted average price of several exchanges for several crypto, and alerts via Telegram when the maximum spread goes beyond the configured value, allowing to set up to five different alert levels. A dashboard and trading panel is available in the [frontend](https://github.com/Vallo/QuantiaSpreadMonitor_Client).
 
 This project uses [Feathers](http://feathersjs.com). 
 
