@@ -29,6 +29,15 @@ Getting up and running is as easy as 1, 2, 3.
    feathers g secret
    feathers g authentication (Username + Password)
    ```
+2.3 Configure ssl pem & key locations at ./config/production.json like this:
+   ```
+   {
+     "ssl":{
+       "cert":"/path/to/pem",
+       "key":"/path/to/key"
+    }
+  }
+  ```
    
 3. Start your app
 
