@@ -1,10 +1,14 @@
-# quantia-spread-monitor-feathers
+# Quantia spread monitor
 
-> Monitor de spread crypto para Quantia
+> Crypto spread analyzer for Quantia Capital
 
 ## About
 
-This project uses [Feathers](http://feathersjs.com). An open source web framework for building modern real-time applications.
+This project compares the weighted average price of several exchanges for several crypto, and alerts via Telegram when the maximum spread goes beyond the configured value, allowing to set up to five different alert levels.  
+
+This project uses [Feathers](http://feathersjs.com). 
+
+Work in progress. Demo available: [Frontend](https://200.68.125.222:30443), [Backend](https://200.68.125.222:30030)
 
 ## Getting Started
 
@@ -16,41 +20,24 @@ Getting up and running is as easy as 1, 2, 3.
     ```
     cd path/to/quantia-spread-monitor-feathers; npm install
     ```
-
+2.1 Configure connection to a database (Postgres used in Demo) 
+   ``` 
+   feathers g connection
+   ```
+2.2 Configure authentication and secret 
+   ```
+   feathers g secret
+   feathers g authentication (Username + Password)
+   ```
+   
 3. Start your app
 
     ```
     npm start
     ```
 
-## Testing
-
-Simply run `npm test` and all your tests in the `test/` directory will be run.
-
-## Scaffolding
-
-Feathers has a powerful command line interface. Here are a few things it can do:
-
-```
-$ npm install -g @feathersjs/cli          # Install Feathers CLI
-
-$ feathers generate service               # Generate a new Service
-$ feathers generate hook                  # Generate a new Hook
-$ feathers help                           # Show all commands
-```
-
-## Help
-
-For more information on all the things you can do with Feathers visit [docs.feathersjs.com](http://docs.feathersjs.com).
-
-## Changelog
-
-__0.1.0__
-
-- Initial release
-
 ## License
 
-Copyright (c) 2018
+Copyright (c) 2019
 
 Licensed under the [MIT license](LICENSE).
