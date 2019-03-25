@@ -34,7 +34,7 @@ async function Job(moneda, condicion) {
 
 exports.Start = function () {
     //BTC LTC ETH ETC EOS XRP BCH BTG
-    const intervalo = 10000;
+    const intervalo = 12500;
     let condicionBTC = new condicionState('btc');
     setInterval(function () {
         Job('btc', condicionBTC);
