@@ -7,7 +7,7 @@ const {
 
 module.exports = {
   before: {
-    all: [lowerCase('email')],
+    all: [],
     find: [ authenticate('jwt') ],
     get: [ authenticate('jwt') ],
     create: [ hashPassword() ],
