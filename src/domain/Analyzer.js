@@ -25,30 +25,29 @@ module.exports = {
                     maxBid,
                     minExchange: minExchange.Exchange,
                     maxExchange: maxExchange.Exchange
-                }).catch(err => console.log(err));
-                resolve({MinExchange: minExchange, MaxExchange: maxExchange, Moneda: moneda});
-            });
-        });
-    },
-
-    async GetSpreadString(moneda) {
-        return await new Promise(async (resolve, reject) => {
-            let retorno = await Spread(moneda);
-            resolve('\nMenor Ask: ' + retorno.MinExchange.Exchange + '--> ' + retorno.MinExchange.Ask + '\nMayor Bid: ' + retorno.MaxExchange.Exchange + '--> ' + retorno.MaxExchange.Bid + '\nSpread: ' + retorno.MaxExchange.Bid / retorno.MinExchange.Ask);
+                })
+                resolve({ MinExchange: minExchange, MaxExchange: maxExchange, Moneda: moneda });
+            }).catch(() => {});
         });
     }
-};
+}
 
-
+async function GetSpreadString(moneda) {
+    return await new Promise(async (resolve, reject) => {
+        let retorno = await Spread(moneda);
+        resolve('\nMenor Ask: ' + retorno.MinExchange.Exchange + '--> ' + retorno.MinExchange.Ask + '\nMayor Bid: ' + retorno.MaxExchange.Exchange + '--> ' + retorno.MaxExchange.Bid + '\nSpread: ' + retorno.MaxExchange.Bid / retorno.MinExchange.Ask);
+    });
+}
 async function getAllPrices(moneda) {
     let weight = await estadoService.get(moneda).then(res => {
         return res.weight;
     });
     return Promise.all([
-        OkexSpot.GetPrices(moneda,weight),
-        HuboiSpot.GetPrices(moneda,weight),
-        BitFinexSpot.GetPrices(moneda,weight),
-        OkexFutures.GetPrices(moneda, 'this_week',weight),
-        OkexFutures.GetPrices(moneda, 'next_week',weight),
-        OkexFutures.GetPrices(moneda, 'quarter',weight)]);
+        OkexSpot.GetPrices(moneda, weight),
+        HuboiSpot.GetPrices(moneda, weight),
+        BitFinexSpot.GetPrices(moneda, weight),
+        OkexFutures.GetPrices(moneda, 'this_week', weight),
+        OkexFutures.GetPrices(moneda, 'next_week', weight),
+        OkexFutures.GetPrices(moneda, 'quarter', weight)])
 }
+

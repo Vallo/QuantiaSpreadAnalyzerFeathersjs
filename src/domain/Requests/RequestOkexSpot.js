@@ -2,8 +2,8 @@ const axios = require('axios');
 const PromedioPonderado = require('../PromedioPonderado.js');
 
 module.exports = {
-  async GetPrices(moneda,weight) {
-    return await new Promise((resolve, reject) => {
+  GetPrices(moneda,weight) {
+    return new Promise((resolve, reject) => {
       axios.get('https://www.okex.com/api/v1/depth.do?symbol=' + moneda.toLowerCase() + '_usdt').then(res => {
         let body = res.data;
         let promedio = new PromedioPonderado(weight);
@@ -25,9 +25,7 @@ module.exports = {
         Promise.all(promises).then(res => {
           resolve({Ask: res[0], Bid: res[1], Exchange: 'Okex Spot'});
         });
-      }).catch(() => {
-        resolve({Ask: 99999, Bid: 0, Exchange: 'Okex Spot'});
-      });
+      }).catch(err => reject(err));
     });
   }
 };

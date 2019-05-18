@@ -76,7 +76,7 @@ setTimeout(function () {
   initDb.Init('etc');
   initDb.Init('eos');
   //initDb.Init('bch');
-  initDb.Init('btg');
+  //initDb.Init('btg');
   initDb.Init('xrp');
 
   const cronJob = require('./domain/CronJob.js');

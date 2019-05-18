@@ -14,10 +14,10 @@ let pareja = [
   }];
 
 module.exports = {
-  async GetPrices(moneda) {
+  GetPrices(moneda) {
     let monedaBitMEX = pareja.find(x => x.moneda === moneda);
     if (!monedaBitMEX) return {Ask: 99999, Bid: 0, Exchange: 'BitMEX'};
-    return await new Promise((resolve, reject) => {
+    return new Promise((resolve, reject) => {
       axios.get('https://www.bitmex.com/api/v1/orderBook/L2?symbol=' + monedaBitMEX.bitmex.toUpperCase() + 'USD&depth=200').then(res => {
         let body = res.data;
         let promedio = new PromedioPonderado();
@@ -37,9 +37,7 @@ module.exports = {
         Promise.all(promises).then(res => {
           resolve({Ask: res[0], Bid: res[1], Exchange: 'BitMEX'});
         });
-      }).catch(() => {
-        resolve({Ask: 99999, Bid: 0, Exchange: 'BitMEX'});
-      });
+      }).catch(err => reject(err));
     });
   }
 };
