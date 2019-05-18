@@ -51,8 +51,8 @@ app.configure(services);
 // Set up event channels (see channels.js)
 app.configure(channels);
 
-const botRoute = require('./routes/index');
-app.use('/promedio', botRoute); //todo agregar rutas para gestionar el bot desde la web
+const promedioRoute = require('./routes/index');
+app.use('/promedio', promedioRoute); //todo agregar rutas para gestionar el bot desde la web
 // Configure a middleware for 404s and the error handler
 app.use(express.notFound());
 app.use(express.errorHandler({logger}));
