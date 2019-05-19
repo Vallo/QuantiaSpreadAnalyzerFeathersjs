@@ -60,12 +60,12 @@ app.use(express.errorHandler({logger}));
 app.hooks(appHooks);
 
 
+const botRoute = require('./routes/bot');
+app.use('/bot', botRoute); //todo agregar rutas para gestionar el bot desde la web
+
 
 
 module.exports = app;
-
-const botRoute = require('./routes/bot');
-app.use('/bot', botRoute); //todo agregar rutas para gestionar el bot desde la web
 
 setTimeout(function () {
   const initDb = require('./InitDb');
