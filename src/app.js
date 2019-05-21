@@ -1,94 +1,87 @@
-const path = require('path');
-const favicon = require('serve-favicon');
-const compress = require('compression');
-const helmet = require('helmet');
-const cors = require('cors');
-const logger = require('./logger');
+const path = require('path')
+const favicon = require('serve-favicon')
+const compress = require('compression')
+const helmet = require('helmet')
+const cors = require('cors')
+const logger = require('./logger')
 
+const feathers = require('@feathersjs/feathers')
+const configuration = require('@feathersjs/configuration')
+const express = require('@feathersjs/express')
+const socketio = require('@feathersjs/socketio')
 
-const feathers = require('@feathersjs/feathers');
-const configuration = require('@feathersjs/configuration');
-const express = require('@feathersjs/express');
-const socketio = require('@feathersjs/socketio');
+const middleware = require('./middleware')
+const services = require('./services')
+const appHooks = require('./app.hooks')
+const channels = require('./channels')
 
+const sequelize = require('./sequelize')
 
-const middleware = require('./middleware');
-const services = require('./services');
-const appHooks = require('./app.hooks');
-const channels = require('./channels');
+const authentication = require('./authentication')
 
-const sequelize = require('./sequelize');
+const app = express(feathers())
 
-const authentication = require('./authentication');
-
-const app = express(feathers());
-
-const TelegramBot = require('node-telegram-bot-api');
+const TelegramBot = require('node-telegram-bot-api')
 
 // Load app configuration
-app.configure(configuration());
+app.configure(configuration())
 // Enable security, CORS, compression, favicon and body parsing
-app.use(helmet());
-app.use(cors());
-app.use(compress());
-app.use(express.json());
-app.use(express.urlencoded({extended: true}));
-app.use(favicon(path.join(app.get('public'), 'favicon.ico')));
+app.use(helmet())
+app.use(cors())
+app.use(compress())
+app.use(express.json())
+app.use(express.urlencoded({ extended: true }))
+app.use(favicon(path.join(app.get('public'), 'favicon.ico')))
 // Host the public folder
-app.use('/', express.static(app.get('public')));
+app.use('/', express.static(app.get('public')))
 // Host custom routes
 
-
 // Set up Plugins and providers
-app.configure(express.rest());
-app.configure(socketio());
+app.configure(express.rest())
+app.configure(socketio())
 
-app.configure(sequelize);
+app.configure(sequelize)
 
 // Configure other middleware (see `middleware/index.js`)
-app.configure(middleware);
-app.configure(authentication);
+app.configure(middleware)
+app.configure(authentication)
 // Set up our services (see `services/index.js`)
-app.configure(services);
+app.configure(services)
 // Set up event channels (see channels.js)
-app.configure(channels);
+app.configure(channels)
 
-const promedioRoute = require('./routes/index');
-app.use('/promedio', promedioRoute);
-const botRoute = require('./routes/bot');
+const promedioRoute = require('./routes/index')
+app.use('/promedio', promedioRoute)
 
-const token = app.get('token');
-const bot = new TelegramBot(token);
-app.post(`/bot/${bot.token}`, (req, res) => {
-  bot.processUpdate(req.body);
-  res.sendStatus(200);
-});
-app.get('/bot', function (req, res) {
-  res.sendStatus(200);
-});
-//app.configure(botRoute); 
+const botDb = require('./domain/Helpers/botDb')
+botDb.Init(app)
 
+const token = app.get('token')
+const bot = new TelegramBot(token)
+app.set('bot', bot)
+
+const botRoute = require('./routes/bot')
+app.configure(botRoute)
 // Configure a middleware for 404s and the error handler
-app.use(express.notFound());
-app.use(express.errorHandler({logger}));
-app.hooks(appHooks);
-module.exports = app;
+app.use(express.notFound())
+app.use(express.errorHandler({ logger }))
+app.hooks(appHooks)
+module.exports = app
 
 setTimeout(function () {
-  const initDb = require('./InitDb');
-  initDb.Init('btc');
-  initDb.Init('eth');
-  initDb.Init('ltc');
-  initDb.Init('etc');
-  initDb.Init('eos');
-  //initDb.Init('bch');
-  //initDb.Init('btg');
-  initDb.Init('xrp');
+  const initDb = require('./InitDb')
+  initDb.Init('btc')
+  initDb.Init('eth')
+  initDb.Init('ltc')
+  initDb.Init('etc')
+  initDb.Init('eos')
+  // initDb.Init('bch');
+  // initDb.Init('btg');
+  initDb.Init('xrp')
 
-  const cronJob = require('./domain/CronJob.js');
-  cronJob.Start();
-}, 5000);
+  const cronJob = require('./domain/CronJob.js')
+  cronJob.Init(app)
+  cronJob.Start()
+}, 5000)
 
-
-//process.on('unhandledRejection', up => { throw up });
-
+// process.on('unhandledRejection', up => { throw up });
