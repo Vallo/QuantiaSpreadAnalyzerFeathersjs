@@ -1,6 +1,6 @@
 module.exports = function (app, bot, token) {
-
-  app.post(`/bot/${token}`, (req, res) => {
+  console.log(token)
+  app.post(`/bot/${bot.token}`, (req, res) => {
     bot.processUpdate(req.body);
     res.sendStatus(200);
   });

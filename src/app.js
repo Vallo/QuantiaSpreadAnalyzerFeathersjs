@@ -59,8 +59,14 @@ const botRoute = require('./routes/bot');
 
 const token = app.get('token');
 const bot = new TelegramBot(token);
-console.log(token)
-app.configure(botRoute, token); 
+app.post(`/bot/${bot.token}`, (req, res) => {
+  bot.processUpdate(req.body);
+  res.sendStatus(200);
+});
+app.get('/bot', function (req, res) {
+  res.sendStatus(200);
+});
+//app.configure(botRoute); 
 
 // Configure a middleware for 404s and the error handler
 app.use(express.notFound());
