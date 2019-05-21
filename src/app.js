@@ -23,9 +23,7 @@ const authentication = require('./authentication');
 
 const app = express(feathers());
 
-const token = app.get('token');
 const TelegramBot = require('node-telegram-bot-api');
-const bot = new TelegramBot(token);
 
 // Load app configuration
 app.configure(configuration());
@@ -58,6 +56,10 @@ app.configure(channels);
 const promedioRoute = require('./routes/index');
 app.use('/promedio', promedioRoute);
 const botRoute = require('./routes/bot');
+
+const token = app.get('token');
+const bot = new TelegramBot(token);
+console.log(token)
 app.configure(botRoute, token); 
 
 // Configure a middleware for 404s and the error handler
