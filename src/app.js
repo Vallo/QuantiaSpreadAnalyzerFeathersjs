@@ -5,6 +5,7 @@ const helmet = require('helmet');
 const cors = require('cors');
 const logger = require('./logger');
 
+
 const feathers = require('@feathersjs/feathers');
 const configuration = require('@feathersjs/configuration');
 const express = require('@feathersjs/express');
@@ -22,6 +23,9 @@ const authentication = require('./authentication');
 
 const app = express(feathers());
 
+const token = app.get('token');
+const TelegramBot = require('node-telegram-bot-api');
+const bot = new TelegramBot(token);
 
 // Load app configuration
 app.configure(configuration());
@@ -52,19 +56,14 @@ app.configure(services);
 app.configure(channels);
 
 const promedioRoute = require('./routes/index');
-app.use('/promedio', promedioRoute); //todo agregar rutas para gestionar el bot desde la web
+app.use('/promedio', promedioRoute);
+const botRoute = require('./routes/bot');
+app.configure(botRoute, token); 
+
 // Configure a middleware for 404s and the error handler
 app.use(express.notFound());
 app.use(express.errorHandler({logger}));
-
 app.hooks(appHooks);
-
-
-const botRoute = require('./routes/bot');
-app.use('/bot', botRoute); //todo agregar rutas para gestionar el bot desde la web
-
-
-
 module.exports = app;
 
 setTimeout(function () {
