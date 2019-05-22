@@ -1,4 +1,3 @@
-const db = require('./../domain/Helpers/botDb')
 module.exports = function (app) {
   const bot = app.get('bot')
   app.post(`/bot/${bot.token}`, (req, res) => {
@@ -18,12 +17,12 @@ module.exports = function (app) {
   }) */
 
   bot.onText(/\/register/, async function onStartText (msg) {
-    db.Register(msg.chat.id, msg.chat.first_name)
+    app.service('telegram-user').create({ id: msg.chat.id, nombre: msg.chat.first_name })
     bot.sendMessage(msg.chat.id, 'Registrado correctamente')
   })
 
   bot.onText(/\/remove/, async function onStartText (msg) {
-    db.Unregister(msg.chat.id)
+    app.service('telegram-user').remove(msg.chat.id)
     bot.sendMessage(msg.chat.id, 'Removido')
   })
 }

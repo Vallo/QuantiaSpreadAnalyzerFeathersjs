@@ -1,9 +1,8 @@
 // const bot = require('./Helpers/bot.js'); TODO
 const Analyzer = require('./Analyzer.js')
-const db = require('./Helpers/botDb')
 // const mailService = require('../app').service('mail')
 const CondicionState = require('./CondicionState.js')
-const mailSender = require('./Helpers/mailSender.js')
+// const mailSender = require('./Helpers/mailSender.js')
 let app = null
 exports.Init = function (app_) {
   app = app_
@@ -14,17 +13,14 @@ async function Job (moneda, condicion) {
   let spread = res.MaxExchange.Bid / res.MinExchange.Ask
   // console.log('Spread: ' + spread + ' Moneda: ' + moneda);
   if (await condicion.CumpleCondicion(spread)) {
-    let ids = await db.GetSuscripciones()
     let mensaje = 'Moneda: ' + moneda + '\nSpread: ' + spread.toFixed(5) + '\nMenor Ask: ' + res.MinExchange.Exchange + '--> ' + res.MinExchange.Ask + '\nMayor Bid: ' + res.MaxExchange.Exchange + '--> ' + res.MaxExchange.Bid
-    for (let i = 0, len = ids.length; i < len; i++) {
-      app.get('bot').SendAlert(ids[i].id, mensaje)
-    }
-    app.service('mail').find().then(mails => {
+    app.emit('sendAlert', mensaje)
+    /*    app.service('mail').find().then(mails => {
       if (mails.data[0]) {
         let mailOptions = mailSender.mailOptions(moneda, mensaje, mails.data)
         mailSender.sendMail(mailOptions)
       }
-    })
+    }) */
   }
 }
 

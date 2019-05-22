@@ -53,12 +53,8 @@ app.configure(channels)
 const promedioRoute = require('./routes/index')
 app.use('/promedio', promedioRoute)
 
-const botDb = require('./domain/Helpers/botDb')
-botDb.Init(app)
-
-const token = app.get('token')
-const bot = new TelegramBot(token)
-app.set('bot', bot)
+const botHelper = require('./domain/Helpers/bot')
+app.configure(botHelper)
 
 const botRoute = require('./routes/bot')
 app.configure(botRoute)
