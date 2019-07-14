@@ -1,11 +1,11 @@
-
+const upsertServiceRecord = require('../../hooks/upsert')
 
 module.exports = {
   before: {
     all: [],
     find: [],
     get: [],
-    create: [],
+    create: [upsertServiceRecord({ service: 'exchanges', updateByKeys: ['crypto', 'symbol', 'exchange'] })],
     update: [],
     patch: [],
     remove: []
@@ -30,4 +30,4 @@ module.exports = {
     patch: [],
     remove: []
   }
-};
+}

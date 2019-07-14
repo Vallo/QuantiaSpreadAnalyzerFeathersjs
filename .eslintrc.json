@@ -7,7 +7,6 @@
   "parserOptions": {
     "ecmaVersion": 2017
   },
-  "extends": "eslint:recommended",
   "rules": {
     "indent": [
       "error",
@@ -18,10 +17,5 @@
       "error",
       "single"
     ],
-
-    "semi": [
-      "error",
-      "always"
-    ]
   }
 }

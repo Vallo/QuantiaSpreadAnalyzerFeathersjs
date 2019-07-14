@@ -22,6 +22,7 @@ const authentication = require('./authentication')
 const app = express(feathers())
 
 const TelegramBot = require('node-telegram-bot-api')
+const exchangesWorker = require('./domain/Workers/exchangesWorker')
 
 // Load app configuration
 app.configure(configuration())
@@ -66,6 +67,7 @@ app.configure(botRoute)
 app.use(express.notFound())
 app.use(express.errorHandler({ logger }))
 app.hooks(appHooks)
+app.configure(exchangesWorker)
 module.exports = app
 
 setTimeout(function () {
