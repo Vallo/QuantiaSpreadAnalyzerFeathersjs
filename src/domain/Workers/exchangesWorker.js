@@ -15,7 +15,7 @@ module.exports = function (app) {
     insertExchange(okexSpot, exchangesService, crypto)
     insertExchange(deribit, exchangesService, crypto)
     insertExchange(bitFinex, exchangesService, crypto)
-  }, 2000)
+  }, 3000)
 }
 function insertExchange (exchange, exchangesService, crypto) {
   exchange.lastPrice(crypto).then(res => {

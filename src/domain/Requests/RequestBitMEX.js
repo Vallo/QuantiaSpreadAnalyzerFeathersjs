@@ -44,7 +44,7 @@ module.exports = {
     const returnValues = [crypto + 'Z19', crypto + 'U19', crypto + 'USD']
     return axios.get('https://www.bitmex.com/api/v1/instrument/active').then(res => {
       return _.map(_.filter(res.data, x => returnValues.includes(x.symbol)), y => {
-        return { crypto, symbol: y.symbol, lastPrice: y.lastPrice }
+        return { exchange: 'BitMEX ' + y.symbol, crypto, symbol: y.symbol, lastPrice: y.lastPrice }
       })
     })
   }
