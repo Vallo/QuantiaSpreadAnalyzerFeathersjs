@@ -8,19 +8,21 @@ const bitFinex = require('../Requests/RequestBitfinex')
 
 module.exports = function (app) {
   let exchangesService = app.service('exchanges')
-  const crypto = 'ETH'
+  const cryptos = ['BTC', 'ETH']
   setInterval(function () {
-    insertExchange(bitMex, exchangesService, crypto)
-    insertExchange(okexFutures, exchangesService, crypto)
-    insertExchange(okexSpot, exchangesService, crypto)
-    insertExchange(deribit, exchangesService, crypto)
-    insertExchange(bitFinex, exchangesService, crypto)
-  }, 3000)
+    insertExchange(bitMex, exchangesService, cryptos)
+    insertExchange(okexFutures, exchangesService, cryptos)
+    insertExchange(okexSpot, exchangesService, cryptos)
+    insertExchange(deribit, exchangesService, cryptos)
+    insertExchange(bitFinex, exchangesService, cryptos)
+  }, 30000)
 }
-function insertExchange (exchange, exchangesService, crypto) {
-  exchange.lastPrice(crypto).then(res => {
-    res.forEach(element => {
-      exchangesService.create(element)
+function insertExchange (exchange, exchangesService, cryptos) {
+  cryptos.forEach(crypto => {
+    exchange.lastPrice(crypto).then(res => {
+      res.forEach(element => {
+        exchangesService.create(element)
+      })
     })
   })
 }

@@ -28,7 +28,7 @@ module.exports = {
   lastPrice (crypto) {
     const url = 'https://api-pub.bitfinex.com/v2/ticker/' + 't' + crypto + 'USD'
     return axios.get(url).then(res => {
-      return [{ exchange: 'Bitfinex', crypto, symbol: crypto, lastPrice: res.data[6] }]
-    })
+      return [{ exchange: 'BFX', order: 1, crypto, lastPrice: res.data[6] }]
+    }).catch(() => { Promise.resolve() })
   }
 }

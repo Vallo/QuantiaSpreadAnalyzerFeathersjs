@@ -44,8 +44,45 @@ module.exports = {
     const returnValues = [crypto + 'Z19', crypto + 'U19', crypto + 'USD']
     return axios.get('https://www.bitmex.com/api/v1/instrument/active').then(res => {
       return _.map(_.filter(res.data, x => returnValues.includes(x.symbol)), y => {
-        return { exchange: 'BitMEX ' + y.symbol, crypto, symbol: y.symbol, lastPrice: y.lastPrice }
+        return { exchange: getExchangeName(y.symbol), order: getMonth(y.symbol), crypto, lastPrice: y.lastPrice } // todo fix order
       })
-    })
+    }).catch(() => { Promise.resolve() })
+  }
+}
+
+function getMonth (symbol) {
+  return symbol.charAt(3)
+}
+
+function getExchangeName (symbol) {
+  if (symbol.includes('USD')) {
+    return 'BMEXspot'
+  }
+  let month = getMonth(symbol)
+  switch (month) {
+    case 'F':
+      return 'BMEXJan'
+    case 'N':
+      return 'BMEXJul'
+    case 'G':
+      return 'BMEXFeb'
+    case 'Q':
+      return 'BMEXAug'
+    case 'H':
+      return 'BMEXMar'
+    case 'U':
+      return 'BMEXSep'
+    case 'J':
+      return 'BMEXApr'
+    case 'V':
+      return 'BMEXOct'
+    case 'K':
+      return 'BMEXMay'
+    case 'X':
+      return 'BMEXNov'
+    case 'M':
+      return 'BMEXJun'
+    case 'Z':
+      return 'BMEXDec'
   }
 }

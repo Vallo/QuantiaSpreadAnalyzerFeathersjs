@@ -31,7 +31,7 @@ module.exports = {
   lastPrice (crypto) {
     const url = 'https://www.okex.com/api/spot/v3/instruments/' + crypto.toUpperCase() + '_USDT/ticker'
     return axios.get(url).then(res => {
-      return [{ exchange: 'Okex Spot', crypto, symbol: res.data.instrument_id, lastPrice: res.data.last }]
-    })
+      return [{ exchange: 'OKEXSpot', order: 2, crypto, lastPrice: res.data.last }]
+    }).catch()
   }
 }

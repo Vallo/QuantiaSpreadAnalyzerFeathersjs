@@ -47,6 +47,17 @@ module.exports = {
 function getData (crypto, contract) {
   const url = 'https://www.okex.com/api/v1/future_ticker.do?symbol=' + crypto.toLowerCase() + '_usd&contract_type=' + contract
   return axios.get(url).then(res => {
-    return { exchange: 'Okex ' + contract, crypto, symbol: contract, lastPrice: res.data.ticker.last }
-  })
+    let { exchange, order } = getExchangeName(contract)
+    return { exchange, order, crypto, symbol: contract, lastPrice: res.data.ticker.last }
+  }).catch()
+}
+function getExchangeName (symbol) {
+  switch (symbol) {
+    case 'this_week':
+      return { exchange: 'OKEX1w', order: 3 }
+    case 'next_week':
+      return { exchange: 'OKEX2w', order: 4 }
+    case 'quarter':
+      return { exchange: 'OKEX3m', order: 5 }
+  }
 }
