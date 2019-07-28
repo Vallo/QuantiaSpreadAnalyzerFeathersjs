@@ -40,8 +40,8 @@ module.exports = {
     })
   },
   async lastPrice (crypto) {
-    crypto = crypto === 'BTC' ? 'XBT' : crypto
-    const returnValues = [crypto + 'Z19', crypto + 'U19', crypto + 'USD']
+    let cryptoMex = crypto === 'BTC' ? 'XBT' : crypto
+    const returnValues = [cryptoMex + 'Z19', cryptoMex + 'U19', cryptoMex + 'USD']
     return axios.get('https://www.bitmex.com/api/v1/instrument/active').then(res => {
       return _.map(_.filter(res.data, x => returnValues.includes(x.symbol)), y => {
         return { exchange: getExchangeName(y.symbol), order: getMonth(y.symbol), crypto, lastPrice: y.lastPrice } // todo fix order
