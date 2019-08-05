@@ -2,7 +2,7 @@
 const logger = require('./logger')
 const app = require('./app')
 const port = app.get('port')
-//const server = app.listen(port);
+// const server = app.listen(port);
 const fs = require('fs')
 const https = require('https')
 const ssl = require('../config/production.json').ssl
@@ -17,9 +17,9 @@ const server = https.createServer({
 // Call app.setup to initialize all services and SocketIO
 app.setup(server)
 
-
 process.on('unhandledRejection', (reason, p) =>
-  logger.error('Unhandled Rejection at: Promise ', p, reason)
+  console.log(reason, p)
+// logger.error('Unhandled Rejection at: Promise ', p, reason)
 )
 
 server.on('listening', () =>

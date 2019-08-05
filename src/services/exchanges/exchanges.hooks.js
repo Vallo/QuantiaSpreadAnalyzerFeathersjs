@@ -5,7 +5,7 @@ module.exports = {
     all: [],
     find: [],
     get: [],
-    create: [upsertServiceRecord({ service: 'exchanges', updateByKeys: ['crypto', 'symbol', 'exchange'] })],
+    create: [upsertServiceRecord({ service: 'exchanges', updateByKeys: ['crypto', 'exchange'] })],
     update: [],
     patch: [],
     remove: []
